@@ -147,34 +147,6 @@ iframe {
   font-size: 13px;
 }
 
-/* TABLE */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid #333;
-  padding: 8px;
-  font-size: 13px;
-}
-
-th {
-  background: #222;
-}
-
-/* CODE VIEWER */
-pre {
-  background: #000;
-  padding: 15px;
-  border-radius: 10px;
-  overflow: auto;
-  max-height: 500px;
-  white-space: pre-wrap;
-  font-size: 12px;
-  border: 1px solid #333;
-}
-
 /* MOBILE */
 @media (max-width: 768px) {
   iframe { height: 350px; }
@@ -215,34 +187,9 @@ pre {
       <h3>Cash Payment Terminal</h3>
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
       <div class="panel-actions">
-        <a class="link-button" href="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html" target="_blank" rel="noopener noreferrer">Go to main link</a>
-      </div>
-    </div>
-
-    <!-- IP LOGS -->
-    <div class="panel">
-      <h3>IP Log Viewer</h3>
-
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search logs..." 
-        style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:none;"
-        onkeyup="filterTable()"
-      >
-
-      <div style="overflow:auto; max-height:500px;">
-        <table>
-          <thead>
-            <tr>
-              <th>IP</th>
-              <th>Time</th>
-              <th>Country</th>
-              <th>Device</th>
-            </tr>
-          </thead>
-          <tbody id="ipBody"></tbody>
-        </table>
+        <a class="link-button" href="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html" target="_blank" rel="noopener noreferrer">
+          Go to main link
+        </a>
       </div>
     </div>
 
@@ -257,7 +204,9 @@ pre {
       <h3>Live Chat (Tawk)</h3>
       <p class="embed-note">Tawk login does not work inside the embed, so use this button to open the chat dashboard directly.</p>
       <div class="panel-actions">
-        <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank" rel="noopener noreferrer">Open chat dashboard</a>
+        <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank" rel="noopener noreferrer">
+          Open chat dashboard
+        </a>
       </div>
     </div>
 
@@ -265,26 +214,24 @@ pre {
 </div>
 
 <script>
-let allLogs = [];
-
 /* 🔐 HASHED PASSWORD SYSTEM */
-const PASSWORD_HASH = "2926a2731f4b312c08982cacf8061eb14bf65c1a87cc5d70e864e079c6220731"; // hash for "8888"
+const PASSWORD_HASH = "2926a2731f4b312c08982cacf8061eb14bf65c1a87cc5d70e864e079c6220731";
 
 async function hash(input) {
   const enc = new TextEncoder().encode(input);
   const buf = await crypto.subtle.digest("SHA-256", enc);
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+  return [...new Uint8Array(buf)]
+    .map(b => b.toString(16).padStart(2,"0"))
+    .join("");
 }
 
 async function unlock() {
   const input = document.getElementById("password").value;
   const hashed = await hash(input);
 
-  if(hashed === PASSWORD_HASH) {
+  if (hashed === PASSWORD_HASH) {
     document.getElementById("lockScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
-
-    loadLogs();
     loadServerJS();
   } else {
     alert("Wrong password");
@@ -302,58 +249,6 @@ function goHome() {
   window.location.href = "https://eightstudios.org";
 }
 
-/* LOAD IP LOGS */
-async function loadLogs() {
-  try {
-    const res = await fetch("https://eightstudios.org/ip-log.txt");
-    const text = await res.text();
-
-    const lines = text.trim().split("\n");
-
-    allLogs = lines.map(l => {
-      const p = l.split("|").map(x => x.trim());
-      return {
-        ip: p[0],
-        time: p[1],
-        country: p[2],
-        device: p[3]
-      };
-    });
-
-    render(allLogs);
-  } catch (e) {}
-}
-
-function render(data) {
-  const body = document.getElementById("ipBody");
-  body.innerHTML = "";
-
-  data.forEach(d => {
-    body.innerHTML += `
-      <tr>
-        <td>${d.ip}</td>
-        <td>${d.time}</td>
-        <td>${d.country}</td>
-        <td>${d.device}</td>
-      </tr>
-    `;
-  });
-}
-
-/* SEARCH */
-function filterTable() {
-  const v = document.getElementById("searchInput").value.toLowerCase();
-
-  const f = allLogs.filter(x =>
-    x.ip.toLowerCase().includes(v) ||
-    x.time.toLowerCase().includes(v) ||
-    x.country.toLowerCase().includes(v) ||
-    x.device.toLowerCase().includes(v)
-  );
-
-  render(f);
-}
-
 /* SERVER JS */
 async function loadServerJS() {
   try {
@@ -362,9 +257,6 @@ async function loadServerJS() {
     document.getElementById("serverCode").textContent = t;
   } catch {}
 }
-
-/* AUTO REFRESH */
-setInterval(loadLogs, 10000);
 </script>
 
 </body>
