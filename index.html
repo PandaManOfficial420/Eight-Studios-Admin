@@ -38,10 +38,6 @@ body {
   box-shadow: 0 0 20px rgba(255,255,255,0.08);
 }
 
-.lock-box h1 {
-  margin-bottom: 20px;
-}
-
 .lock-box input {
   width: 100%;
   padding: 10px;
@@ -57,14 +53,13 @@ body {
   color: black;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /* DASHBOARD */
 #dashboard {
   display: none;
-  min-height: 100vh;
 }
 
 /* NAVBAR */
@@ -99,7 +94,7 @@ body {
   gap: 20px;
 }
 
-/* PANELS */
+/* PANEL */
 .panel {
   background: #111;
   padding: 15px;
@@ -149,25 +144,9 @@ pre {
 
 /* MOBILE */
 @media (max-width: 768px) {
-
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .nav-buttons {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  iframe {
-    height: 350px;
-  }
-
-  .lock-box {
-    width: 90%;
-  }
+  iframe { height: 350px; }
+  .lock-box { width: 90%; }
+  .navbar { flex-direction: column; gap: 10px; }
 }
 </style>
 </head>
@@ -177,7 +156,7 @@ pre {
 <!-- LOCK SCREEN -->
 <div id="lockScreen">
   <div class="lock-box">
-    <h1>Eight Studios Admin</h1>
+    <h2>Eight Studios Admin</h2>
     <input type="password" id="password" placeholder="Enter Password">
     <button onclick="unlock()">Unlock</button>
   </div>
@@ -186,7 +165,6 @@ pre {
 <!-- DASHBOARD -->
 <div id="dashboard">
 
-  <!-- NAVBAR -->
   <div class="navbar">
     <h2>Eight Studios Admin Portal</h2>
 
@@ -231,31 +209,16 @@ pre {
       </div>
     </div>
 
-    <!-- SERVER.JS -->
+    <!-- SERVER JS -->
     <div class="panel">
       <h3>server.js Viewer</h3>
-      <pre id="serverCode">Loading server.js...</pre>
+      <pre id="serverCode">Loading...</pre>
     </div>
 
     <!-- TAWK CHAT -->
     <div class="panel">
-      <h3>Live Chat (Tawk Inbox)</h3>
-
+      <h3>Live Chat (Tawk)</h3>
       <iframe src="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all"></iframe>
-
-      <div style="margin-top:10px;">
-        <button onclick="openTawk()" style="
-          padding:10px 12px;
-          border:none;
-          border-radius:6px;
-          background:white;
-          color:black;
-          font-weight:bold;
-          cursor:pointer;
-        ">
-          Open Chat Dashboard
-        </button>
-      </div>
     </div>
 
   </div>
@@ -263,13 +226,21 @@ pre {
 
 <script>
 let allLogs = [];
-const PASSWORD = "8888";
 
-/* UNLOCK */
-function unlock() {
+/* 🔐 HASHED PASSWORD SYSTEM */
+const PASSWORD_HASH = "6b3a55e0261b0304143f805a249dd8d17e3c7d..."; // hash for "8888"
+
+async function hash(input) {
+  const enc = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+async function unlock() {
   const input = document.getElementById("password").value;
+  const hashed = await hash(input);
 
-  if(input === PASSWORD) {
+  if(hashed === PASSWORD_HASH) {
     document.getElementById("lockScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
 
@@ -291,12 +262,7 @@ function goHome() {
   window.location.href = "https://eightstudios.org";
 }
 
-/* OPEN TAWK */
-function openTawk() {
-  window.open("https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all", "_blank");
-}
-
-/* LOAD LOGS */
+/* LOAD IP LOGS */
 async function loadLogs() {
   try {
     const res = await fetch("https://eightstudios.org/ip-log.txt");
@@ -304,34 +270,31 @@ async function loadLogs() {
 
     const lines = text.trim().split("\n");
 
-    allLogs = lines.map(line => {
-      const parts = line.split("|").map(p => p.trim());
+    allLogs = lines.map(l => {
+      const p = l.split("|").map(x => x.trim());
       return {
-        ip: parts[0] || "",
-        time: parts[1] || "",
-        country: parts[2] || "",
-        device: parts[3] || ""
+        ip: p[0],
+        time: p[1],
+        country: p[2],
+        device: p[3]
       };
     });
 
-    renderTable(allLogs);
-  } catch (err) {
-    console.error(err);
-  }
+    render(allLogs);
+  } catch (e) {}
 }
 
-/* TABLE */
-function renderTable(data) {
+function render(data) {
   const body = document.getElementById("ipBody");
   body.innerHTML = "";
 
-  data.forEach(log => {
+  data.forEach(d => {
     body.innerHTML += `
       <tr>
-        <td>${log.ip}</td>
-        <td>${log.time}</td>
-        <td>${log.country}</td>
-        <td>${log.device}</td>
+        <td>${d.ip}</td>
+        <td>${d.time}</td>
+        <td>${d.country}</td>
+        <td>${d.device}</td>
       </tr>
     `;
   });
@@ -339,27 +302,25 @@ function renderTable(data) {
 
 /* SEARCH */
 function filterTable() {
-  const value = document.getElementById("searchInput").value.toLowerCase();
+  const v = document.getElementById("searchInput").value.toLowerCase();
 
-  const filtered = allLogs.filter(log =>
-    log.ip.toLowerCase().includes(value) ||
-    log.time.toLowerCase().includes(value) ||
-    log.country.toLowerCase().includes(value) ||
-    log.device.toLowerCase().includes(value)
+  const f = allLogs.filter(x =>
+    x.ip.toLowerCase().includes(v) ||
+    x.time.toLowerCase().includes(v) ||
+    x.country.toLowerCase().includes(v) ||
+    x.device.toLowerCase().includes(v)
   );
 
-  renderTable(filtered);
+  render(f);
 }
 
-/* SERVER.JS */
+/* SERVER JS */
 async function loadServerJS() {
   try {
-    const res = await fetch("https://eightstudios.org/server.js");
-    const text = await res.text();
-    document.getElementById("serverCode").textContent = text;
-  } catch (err) {
-    document.getElementById("serverCode").textContent = "Failed to load server.js";
-  }
+    const r = await fetch("https://eightstudios.org/server.js");
+    const t = await r.text();
+    document.getElementById("serverCode").textContent = t;
+  } catch {}
 }
 
 /* AUTO REFRESH */
