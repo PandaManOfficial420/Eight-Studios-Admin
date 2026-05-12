@@ -120,6 +120,33 @@ iframe {
   border-radius: 10px;
 }
 
+.panel-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.embed-note {
+  margin: 8px 0 0;
+  color: #aaa;
+  font-size: 13px;
+}
+
 /* TABLE */
 table {
   width: 100%;
@@ -187,6 +214,9 @@ pre {
     <div class="panel">
       <h3>Cash Payment Terminal</h3>
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
+      <div class="panel-actions">
+        <a class="link-button" href="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html" target="_blank" rel="noopener noreferrer">Go to main link</a>
+      </div>
     </div>
 
     <!-- IP LOGS -->
@@ -225,7 +255,10 @@ pre {
     <!-- TAWK CHAT -->
     <div class="panel">
       <h3>Live Chat (Tawk)</h3>
-      <iframe src="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all"></iframe>
+      <p class="embed-note">Tawk login does not work inside the embed, so use this button to open the chat dashboard directly.</p>
+      <div class="panel-actions">
+        <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank" rel="noopener noreferrer">Open chat dashboard</a>
+      </div>
     </div>
 
   </div>
