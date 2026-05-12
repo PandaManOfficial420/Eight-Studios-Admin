@@ -172,11 +172,20 @@ iframe {
 
   <div class="container">
 
+    <!-- SQUARE TERMINAL -->
     <div class="panel">
-      <h3>Cash Terminal</h3>
-      <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
+      <h3>Payment Terminal</h3>
+
+      <iframe src="https://app.squareup.com/dashboard/take-payment"></iframe>
+
+      <div style="margin-top:12px;">
+        <a class="link-button" href="https://app.squareup.com/dashboard/take-payment" target="_blank">
+          Open in new tab
+        </a>
+      </div>
     </div>
 
+    <!-- LIVE CHAT -->
     <div class="panel">
       <h3>Live Chat</h3>
       <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank">
@@ -190,7 +199,7 @@ iframe {
 <script>
 const PASSWORD_HASH = "2926a2731f4b312c08982cacf8061eb14bf65c1a87cc5d70e864e079c6220731";
 
-/* CHECK LOGIN ON LOAD */
+/* SESSION LOGIN (keeps on refresh, logs out on close) */
 window.onload = () => {
   if (sessionStorage.getItem("auth") === "1") {
     document.getElementById("lockScreen").style.display = "none";
@@ -209,7 +218,7 @@ async function unlock() {
   const hashed = await hash(input);
 
   if (hashed === PASSWORD_HASH) {
-    sessionStorage.setItem("auth", "1"); // stays until tab closes
+    sessionStorage.setItem("auth", "1");
     document.getElementById("lockScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
   } else {
@@ -217,7 +226,6 @@ async function unlock() {
   }
 }
 
-/* LOCK (manual logout) */
 function lock() {
   sessionStorage.removeItem("auth");
   document.getElementById("lockScreen").style.display = "flex";
