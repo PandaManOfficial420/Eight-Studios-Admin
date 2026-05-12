@@ -57,6 +57,12 @@ body {
   cursor: pointer;
 }
 
+.login-hint {
+  margin-bottom: 10px;
+  color: #aaa;
+  font-size: 13px;
+}
+
 /* DASHBOARD */
 #dashboard {
   display: none;
@@ -157,6 +163,7 @@ pre {
 <div id="lockScreen">
   <div class="lock-box">
     <h2>Eight Studios Admin</h2>
+    <p class="login-hint">Hint: password is 8888</p>
     <input type="password" id="password" placeholder="Enter Password">
     <button onclick="unlock()">Unlock</button>
   </div>
@@ -228,7 +235,7 @@ pre {
 let allLogs = [];
 
 /* 🔐 HASHED PASSWORD SYSTEM */
-const PASSWORD_HASH = "6b3a55e0261b0304143f805a249dd8d17e3c7d..."; // hash for "8888"
+const PASSWORD_HASH = "2926a2731f4b312c08982cacf8061eb14bf65c1a87cc5d70e864e079c6220731"; // hash for "8888"
 
 async function hash(input) {
   const enc = new TextEncoder().encode(input);
