@@ -101,22 +101,29 @@ body::before {
   backdrop-filter: blur(10px);
 }
 
+/* LEFT SIDE (SPACER) */
 .nav-left {
-  display: flex;
-  align-items: center;
+  width: 80px;
 }
 
-.nav-left img {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-}
-
-/* CENTER TITLE */
+/* CENTER STACKED LOGO + TITLE */
 .nav-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-center img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.nav-center span {
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -199,7 +206,7 @@ body::before {
 
 <body>
 
-<!-- LOCK -->
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
   <div class="lock-box">
     <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
@@ -214,11 +221,11 @@ body::before {
 
   <div class="navbar">
 
-    <div class="nav-left">
-      <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
-    </div>
+    <div class="nav-left"></div>
 
+    <!-- CENTER LOGO + TITLE -->
     <div class="nav-center">
+      <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
       <span>Eight Studios</span>
     </div>
 
