@@ -24,7 +24,7 @@ body {
   overflow-x: hidden;
 }
 
-/* DARK LUX OVERLAY */
+/* DARK OVERLAY */
 body::before {
   content: "";
   position: fixed;
@@ -137,7 +137,7 @@ body::before {
   gap: 22px;
 }
 
-/* PANEL STYLE (STORE-LIKE CARDS) */
+/* PANEL */
 .panel {
   background: rgba(10,10,10,0.7);
   border: 1px solid rgba(255,255,255,0.08);
@@ -163,7 +163,7 @@ iframe {
   border-radius: 12px;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .panel-actions {
   margin-top: 12px;
 }
@@ -179,17 +179,6 @@ iframe {
   text-decoration: none;
 }
 
-/* CODE BLOCK */
-pre {
-  background: rgba(0,0,0,0.6);
-  padding: 14px;
-  border-radius: 12px;
-  overflow: auto;
-  max-height: 420px;
-  font-size: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
 /* MOBILE */
 @media (max-width: 768px) {
   iframe { height: 320px; }
@@ -201,7 +190,7 @@ pre {
 
 <body>
 
-<!-- LOCK -->
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
   <div class="lock-box">
     <h2>Eight Studios</h2>
@@ -224,6 +213,7 @@ pre {
 
   <div class="container">
 
+    <!-- TERMINAL -->
     <div class="panel">
       <h3>Cash Terminal</h3>
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
@@ -234,11 +224,7 @@ pre {
       </div>
     </div>
 
-    <div class="panel">
-      <h3>Server Viewer</h3>
-      <pre id="serverCode">Loading...</pre>
-    </div>
-
+    <!-- LIVE CHAT -->
     <div class="panel">
       <h3>Live Chat</h3>
       <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank">
@@ -265,7 +251,6 @@ async function unlock() {
   if (hashed === PASSWORD_HASH) {
     document.getElementById("lockScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
-    loadServerJS();
   } else {
     alert("Wrong password");
   }
@@ -278,14 +263,6 @@ function lock() {
 
 function goHome() {
   window.location.href = "https://eightstudios.org";
-}
-
-async function loadServerJS() {
-  try {
-    const r = await fetch("https://eightstudios.org/server.js");
-    const t = await r.text();
-    document.getElementById("serverCode").textContent = t;
-  } catch {}
 }
 </script>
 
