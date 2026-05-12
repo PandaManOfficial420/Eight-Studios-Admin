@@ -8,7 +8,6 @@
 <link rel="icon" href="https://eightstudios.org/IMG_7229-removebg-preview.png">
 
 <style>
-/* ===== GLOBAL ===== */
 * {
   margin: 0;
   padding: 0;
@@ -21,7 +20,7 @@ body {
   color: white;
 }
 
-/* ===== LOGIN SCREEN ===== */
+/* LOGIN */
 #loginScreen {
   height: 100vh;
   display: flex;
@@ -62,7 +61,7 @@ body {
   font-weight: bold;
 }
 
-/* ===== DASHBOARD ===== */
+/* DASHBOARD */
 #dashboard {
   display: none;
   min-height: 100vh;
@@ -77,18 +76,13 @@ body {
   border-bottom: 1px solid #222;
 }
 
-.navbar h2 {
-  font-size: 18px;
-}
-
 .container {
   padding: 20px;
   display: grid;
-  grid-template-columns: 1fr;
   gap: 20px;
 }
 
-/* ===== EMBED SECTION ===== */
+/* PANELS */
 .panel {
   background: #111;
   padding: 15px;
@@ -100,19 +94,32 @@ body {
   margin-bottom: 10px;
 }
 
-/* embedded terminal */
+/* IFRAME */
 iframe {
   width: 100%;
-  height: 700px;
+  height: 600px;
   border: none;
   border-radius: 10px;
 }
 
-/* responsive */
-@media (min-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  font-size: 13px;
+}
+
+th {
+  background: #222;
+}
+
+input {
+  outline: none;
 }
 </style>
 </head>
@@ -139,24 +146,50 @@ iframe {
 
   <div class="container">
 
-    <!-- CASH / PAYMENT TERMINAL -->
+    <!-- PAYMENT TERMINAL -->
     <div class="panel">
       <h3>Cash Payment Receiver / Virtual Terminal</h3>
-
-      <!-- EMBED LINK -->
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
+    </div>
 
+    <!-- IP LOG TABLE -->
+    <div class="panel">
+      <h3>IP Log Viewer (Live)</h3>
+
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search IP, time, country, device..." 
+        style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:none;"
+        onkeyup="filterTable()"
+      >
+
+      <div style="overflow:auto; max-height:500px;">
+        <table>
+          <thead>
+            <tr>
+              <th>IP</th>
+              <th>Time</th>
+              <th>Country</th>
+              <th>Device</th>
+            </tr>
+          </thead>
+          <tbody id="ipBody"></tbody>
+        </table>
+      </div>
     </div>
 
   </div>
 </div>
 
 <script>
+let allLogs = [];
+
+/* LOGIN */
 function login() {
   const user = document.getElementById("user").value;
   const pass = document.getElementById("pass").value;
 
-  // simple demo login (you can replace later with real auth)
   if(user === "admin" && pass === "1234") {
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
@@ -169,6 +202,65 @@ function logout() {
   document.getElementById("loginScreen").style.display = "flex";
   document.getElementById("dashboard").style.display = "none";
 }
+
+/* LOAD LOGS */
+async function loadLogs() {
+  try {
+    const res = await fetch("https://eightstudios.org/ip-log.txt");
+    const text = await res.text();
+
+    const lines = text.trim().split("\n");
+
+    allLogs = lines.map(line => {
+      const parts = line.split("|").map(p => p.trim());
+      return {
+        ip: parts[0] || "",
+        time: parts[1] || "",
+        country: parts[2] || "",
+        device: parts[3] || ""
+      };
+    });
+
+    renderTable(allLogs);
+  } catch (err) {
+    console.error("Failed to load logs:", err);
+  }
+}
+
+/* RENDER TABLE */
+function renderTable(data) {
+  const body = document.getElementById("ipBody");
+  body.innerHTML = "";
+
+  data.forEach(log => {
+    body.innerHTML += `
+      <tr>
+        <td>${log.ip}</td>
+        <td>${log.time}</td>
+        <td>${log.country}</td>
+        <td>${log.device}</td>
+      </tr>
+    `;
+  });
+}
+
+/* SEARCH */
+function filterTable() {
+  const value = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = allLogs.filter(log =>
+    log.ip.toLowerCase().includes(value) ||
+    log.time.toLowerCase().includes(value) ||
+    log.country.toLowerCase().includes(value) ||
+    log.device.toLowerCase().includes(value)
+  );
+
+  renderTable(filtered);
+}
+
+/* AUTO REFRESH */
+setInterval(loadLogs, 10000);
+loadLogs();
 </script>
 
 </body>
