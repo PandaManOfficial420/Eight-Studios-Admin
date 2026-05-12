@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eight Studios Admin Portal</title>
+<title>Eight Studios Admin</title>
 
 <link rel="icon" href="https://eightstudios.org/IMG_7229-removebg-preview.png">
 
@@ -20,8 +20,8 @@ body {
   color: white;
 }
 
-/* LOGIN */
-#loginScreen {
+/* LOCK SCREEN */
+#lockScreen {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -29,7 +29,7 @@ body {
   background: radial-gradient(circle, #111, #000);
 }
 
-.login-box {
+.lock-box {
   background: #111;
   padding: 30px;
   border-radius: 12px;
@@ -38,19 +38,19 @@ body {
   box-shadow: 0 0 20px rgba(255,255,255,0.08);
 }
 
-.login-box h1 {
+.lock-box h1 {
   margin-bottom: 20px;
 }
 
-.login-box input {
+.lock-box input {
   width: 100%;
   padding: 10px;
-  margin: 8px 0;
+  margin: 10px 0;
   border: none;
   border-radius: 6px;
 }
 
-.login-box button {
+.lock-box button {
   width: 100%;
   padding: 10px;
   background: white;
@@ -67,6 +67,7 @@ body {
   min-height: 100vh;
 }
 
+/* NAVBAR */
 .navbar {
   background: #111;
   padding: 15px 20px;
@@ -76,7 +77,22 @@ body {
   border-bottom: 1px solid #222;
 }
 
-/* GRID */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+  color: black;
+  font-weight: bold;
+}
+
+/* CONTAINER */
 .container {
   padding: 20px;
   display: grid;
@@ -130,45 +146,72 @@ pre {
   font-size: 12px;
   border: 1px solid #333;
 }
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nav-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  iframe {
+    height: 350px;
+  }
+
+  .lock-box {
+    width: 90%;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-box">
+<!-- LOCK SCREEN -->
+<div id="lockScreen">
+  <div class="lock-box">
     <h1>Eight Studios Admin</h1>
-    <input type="text" id="user" placeholder="Username">
-    <input type="password" id="pass" placeholder="Password">
-    <button onclick="login()">Login</button>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="unlock()">Unlock</button>
   </div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard">
 
+  <!-- NAVBAR -->
   <div class="navbar">
     <h2>Eight Studios Admin Portal</h2>
-    <button onclick="logout()" style="padding:8px 12px;">Logout</button>
+
+    <div class="nav-buttons">
+      <button onclick="goHome()">Home</button>
+      <button onclick="lock()">Lock</button>
+    </div>
   </div>
 
   <div class="container">
 
     <!-- TERMINAL -->
     <div class="panel">
-      <h3>Cash Payment Receiver / Virtual Terminal</h3>
+      <h3>Cash Payment Terminal</h3>
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
     </div>
 
     <!-- IP LOGS -->
     <div class="panel">
-      <h3>IP Log Viewer (Live Table)</h3>
+      <h3>IP Log Viewer</h3>
 
       <input 
         type="text" 
         id="searchInput" 
-        placeholder="Search IP, time, country, device..." 
+        placeholder="Search logs..." 
         style="width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:none;"
         onkeyup="filterTable()"
       >
@@ -188,10 +231,31 @@ pre {
       </div>
     </div>
 
-    <!-- SERVER JS VIEWER -->
+    <!-- SERVER.JS -->
     <div class="panel">
       <h3>server.js Viewer</h3>
       <pre id="serverCode">Loading server.js...</pre>
+    </div>
+
+    <!-- TAWK CHAT -->
+    <div class="panel">
+      <h3>Live Chat (Tawk Inbox)</h3>
+
+      <iframe src="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all"></iframe>
+
+      <div style="margin-top:10px;">
+        <button onclick="openTawk()" style="
+          padding:10px 12px;
+          border:none;
+          border-radius:6px;
+          background:white;
+          color:black;
+          font-weight:bold;
+          cursor:pointer;
+        ">
+          Open Chat Dashboard
+        </button>
+      </div>
     </div>
 
   </div>
@@ -199,29 +263,40 @@ pre {
 
 <script>
 let allLogs = [];
+const PASSWORD = "8888";
 
-/* LOGIN */
-function login() {
-  const user = document.getElementById("user").value;
-  const pass = document.getElementById("pass").value;
+/* UNLOCK */
+function unlock() {
+  const input = document.getElementById("password").value;
 
-  if(user === "admin" && pass === "1234") {
-    document.getElementById("loginScreen").style.display = "none";
+  if(input === PASSWORD) {
+    document.getElementById("lockScreen").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
 
     loadLogs();
     loadServerJS();
   } else {
-    alert("Invalid login");
+    alert("Wrong password");
   }
 }
 
-function logout() {
-  document.getElementById("loginScreen").style.display = "flex";
+/* LOCK */
+function lock() {
+  document.getElementById("lockScreen").style.display = "flex";
   document.getElementById("dashboard").style.display = "none";
 }
 
-/* LOAD IP LOGS */
+/* HOME */
+function goHome() {
+  window.location.href = "https://eightstudios.org";
+}
+
+/* OPEN TAWK */
+function openTawk() {
+  window.open("https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all", "_blank");
+}
+
+/* LOAD LOGS */
 async function loadLogs() {
   try {
     const res = await fetch("https://eightstudios.org/ip-log.txt");
@@ -241,11 +316,11 @@ async function loadLogs() {
 
     renderTable(allLogs);
   } catch (err) {
-    console.error("IP log error:", err);
+    console.error(err);
   }
 }
 
-/* RENDER TABLE */
+/* TABLE */
 function renderTable(data) {
   const body = document.getElementById("ipBody");
   body.innerHTML = "";
@@ -276,19 +351,18 @@ function filterTable() {
   renderTable(filtered);
 }
 
-/* SERVER.JS LOADER */
+/* SERVER.JS */
 async function loadServerJS() {
   try {
     const res = await fetch("https://eightstudios.org/server.js");
     const text = await res.text();
-
     document.getElementById("serverCode").textContent = text;
   } catch (err) {
     document.getElementById("serverCode").textContent = "Failed to load server.js";
   }
 }
 
-/* AUTO REFRESH IP LOGS */
+/* AUTO REFRESH */
 setInterval(loadLogs, 10000);
 </script>
 
