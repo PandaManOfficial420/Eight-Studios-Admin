@@ -89,8 +89,9 @@ body::before {
   display: none;
 }
 
-/* NAV */
+/* NAVBAR */
 .navbar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -103,7 +104,6 @@ body::before {
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
 .nav-left img {
@@ -112,12 +112,17 @@ body::before {
   border-radius: 6px;
 }
 
-.nav-left span {
+/* CENTER TITLE */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
+/* RIGHT BUTTONS */
 .nav-buttons {
   display: flex;
   gap: 10px;
@@ -171,14 +176,6 @@ body::before {
   cursor: pointer;
 }
 
-/* IFRAME */
-iframe {
-  width: 100%;
-  height: 520px;
-  border: none;
-  border-radius: 12px;
-}
-
 /* FOOTER */
 .footer {
   margin-top: 40px;
@@ -195,7 +192,6 @@ iframe {
 
 /* MOBILE */
 @media (max-width: 768px) {
-  iframe { height: 320px; }
   .lock-box { width: 90%; }
 }
 </style>
@@ -220,6 +216,9 @@ iframe {
 
     <div class="nav-left">
       <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
+    </div>
+
+    <div class="nav-center">
       <span>Eight Studios</span>
     </div>
 
@@ -232,17 +231,14 @@ iframe {
 
   <div class="container">
 
-    <!-- TERMINAL -->
     <div class="panel">
       <h3>Cash Payment Terminal</h3>
-      <!-- BUTTON UNDER IFRAME -->
-        <button class="btn"
-          onclick="window.open('https://app.squareup.com/terminal/','_blank')">
-          Open Terminal
-        </button>
-      </div>
+      <button class="btn"
+        onclick="window.open('https://app.squareup.com/terminal/','_blank')">
+        Open Terminal
+      </button>
+    </div>
 
-    <!-- STRIPE -->
     <div class="panel">
       <h3>Stripe Dashboard</h3>
       <button class="btn"
@@ -251,7 +247,6 @@ iframe {
       </button>
     </div>
 
-    <!-- CHAT -->
     <div class="panel">
       <h3>Live Chat</h3>
       <button class="btn"
@@ -262,7 +257,6 @@ iframe {
 
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     © Eight Studios • Admin Panel
   </div>
