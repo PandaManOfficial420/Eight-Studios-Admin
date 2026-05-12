@@ -8,16 +8,30 @@
 <link rel="icon" href="https://eightstudios.org/IMG_7229-removebg-preview.png">
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
-  background: #0a0a0a;
-  color: white;
+  background: url("https://eightstudios.org/the-world-is-yours-ship.gif") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* DARK LUX OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(2px);
+  z-index: -1;
 }
 
 /* LOCK SCREEN */
@@ -26,41 +40,50 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle, #111, #000);
 }
 
 .lock-box {
-  background: #111;
-  padding: 30px;
-  border-radius: 12px;
-  width: 320px;
+  width: 340px;
+  padding: 28px;
+  border-radius: 14px;
+  background: rgba(10,10,10,0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
   text-align: center;
-  box-shadow: 0 0 20px rgba(255,255,255,0.08);
+}
+
+.lock-box h2 {
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.login-hint {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 14px;
 }
 
 .lock-box input {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  outline: none;
 }
 
 .lock-box button {
+  margin-top: 10px;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
   background: white;
   color: black;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-}
-
-.login-hint {
-  margin-bottom: 10px;
-  color: #aaa;
-  font-size: 13px;
 }
 
 /* DASHBOARD */
@@ -68,14 +91,22 @@ body {
   display: none;
 }
 
-/* NAVBAR */
+/* NAV */
 .navbar {
-  background: #111;
-  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #222;
+  padding: 18px 28px;
+  background: rgba(10,10,10,0.75);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+
+.navbar h2 {
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .nav-buttons {
@@ -84,86 +115,98 @@ body {
 }
 
 .navbar button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: white;
+  font-size: 12px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.navbar button:hover {
   background: white;
   color: black;
-  font-weight: bold;
 }
 
-/* CONTAINER */
+/* GRID */
 .container {
-  padding: 20px;
+  padding: 28px;
   display: grid;
-  gap: 20px;
+  gap: 22px;
 }
 
-/* PANEL */
+/* PANEL STYLE (STORE-LIKE CARDS) */
 .panel {
-  background: #111;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #222;
+  background: rgba(10,10,10,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 18px;
+  backdrop-filter: blur(10px);
 }
 
 .panel h3 {
-  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: #ddd;
 }
 
 /* IFRAME */
 iframe {
   width: 100%;
-  height: 550px;
+  height: 520px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
+/* BUTTONS */
 .panel-actions {
   margin-top: 12px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
 .link-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   padding: 10px 14px;
+  border-radius: 8px;
   background: white;
   color: black;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  font-size: 12px;
+  font-weight: 600;
   text-decoration: none;
-  cursor: pointer;
 }
 
-.embed-note {
-  margin: 8px 0 0;
-  color: #aaa;
-  font-size: 13px;
+/* CODE BLOCK */
+pre {
+  background: rgba(0,0,0,0.6);
+  padding: 14px;
+  border-radius: 12px;
+  overflow: auto;
+  max-height: 420px;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
-  iframe { height: 350px; }
-  .lock-box { width: 90%; }
+  iframe { height: 320px; }
   .navbar { flex-direction: column; gap: 10px; }
+  .lock-box { width: 90%; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- LOCK -->
 <div id="lockScreen">
   <div class="lock-box">
-    <h2>Eight Studios Admin</h2>
-    <p class="login-hint">Hint: password is 8888</p>
-    <input type="password" id="password" placeholder="Enter Password">
+    <h2>Eight Studios</h2>
+    <p class="login-hint">Admin Access Required</p>
+    <input type="password" id="password" placeholder="Password">
     <button onclick="unlock()">Unlock</button>
   </div>
 </div>
@@ -172,8 +215,7 @@ iframe {
 <div id="dashboard">
 
   <div class="navbar">
-    <h2>Eight Studios Admin Portal</h2>
-
+    <h2>Eight Studios Admin</h2>
     <div class="nav-buttons">
       <button onclick="goHome()">Home</button>
       <button onclick="lock()">Lock</button>
@@ -182,47 +224,38 @@ iframe {
 
   <div class="container">
 
-    <!-- TERMINAL -->
     <div class="panel">
-      <h3>Cash Payment Terminal</h3>
+      <h3>Cash Terminal</h3>
       <iframe src="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html"></iframe>
       <div class="panel-actions">
-        <a class="link-button" href="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html" target="_blank" rel="noopener noreferrer">
-          Go to main link
+        <a class="link-button" href="https://eightstudios.org/cash-payment-receiver-virtual-terminal.html" target="_blank">
+          Open Full Page
         </a>
       </div>
     </div>
 
-    <!-- SERVER JS -->
     <div class="panel">
-      <h3>server.js Viewer</h3>
+      <h3>Server Viewer</h3>
       <pre id="serverCode">Loading...</pre>
     </div>
 
-    <!-- TAWK CHAT -->
     <div class="panel">
-      <h3>Live Chat (Tawk)</h3>
-      <p class="embed-note">Tawk login does not work inside the embed, so use this button to open the chat dashboard directly.</p>
-      <div class="panel-actions">
-        <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank" rel="noopener noreferrer">
-          Open chat dashboard
-        </a>
-      </div>
+      <h3>Live Chat</h3>
+      <a class="link-button" href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank">
+        Open Chat
+      </a>
     </div>
 
   </div>
 </div>
 
 <script>
-/* 🔐 HASHED PASSWORD SYSTEM */
 const PASSWORD_HASH = "2926a2731f4b312c08982cacf8061eb14bf65c1a87cc5d70e864e079c6220731";
 
 async function hash(input) {
   const enc = new TextEncoder().encode(input);
   const buf = await crypto.subtle.digest("SHA-256", enc);
-  return [...new Uint8Array(buf)]
-    .map(b => b.toString(16).padStart(2,"0"))
-    .join("");
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
 }
 
 async function unlock() {
@@ -238,18 +271,15 @@ async function unlock() {
   }
 }
 
-/* LOCK */
 function lock() {
   document.getElementById("lockScreen").style.display = "flex";
   document.getElementById("dashboard").style.display = "none";
 }
 
-/* HOME */
 function goHome() {
   window.location.href = "https://eightstudios.org";
 }
 
-/* SERVER JS */
 async function loadServerJS() {
   try {
     const r = await fetch("https://eightstudios.org/server.js");
