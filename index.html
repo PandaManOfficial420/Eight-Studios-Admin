@@ -7,6 +7,18 @@
 
 <link rel="icon" href="https://eightstudios.org/IMG_7229-removebg-preview.png">
 
+<!-- 🔥 SOCIAL MEDIA / DISCORD PREVIEW -->
+<meta property="og:title" content="Eight Studios Admin Panel">
+<meta property="og:description" content="Secure admin dashboard for Eight Studios operations and payments.">
+<meta property="og:image" content="https://eightstudios.org/IMG_7229-removebg-preview.png">
+<meta property="og:url" content="https://eightstudios.org/admin">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eight Studios Admin Panel">
+<meta name="twitter:description" content="Secure admin dashboard for Eight Studios operations and payments.">
+<meta name="twitter:image" content="https://eightstudios.org/IMG_7229-removebg-preview.png">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
@@ -60,8 +72,6 @@ body::before {
 
 .lock-box h2 {
   margin-bottom: 10px;
-  font-weight: 500;
-  letter-spacing: 1px;
 }
 
 .lock-box input {
@@ -72,7 +82,6 @@ body::before {
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(0,0,0,0.4);
   color: white;
-  outline: none;
 }
 
 .lock-box button {
@@ -92,7 +101,7 @@ body::before {
   display: none;
 }
 
-/* NAVBAR */
+/* NAV */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -103,7 +112,6 @@ body::before {
   backdrop-filter: blur(10px);
 }
 
-/* LEFT BRAND */
 .nav-left {
   display: flex;
   align-items: center;
@@ -122,7 +130,6 @@ body::before {
   text-transform: uppercase;
 }
 
-/* BUTTONS */
 .nav-buttons {
   display: flex;
   gap: 10px;
@@ -161,7 +168,6 @@ body::before {
   font-size: 13px;
   text-transform: uppercase;
   margin-bottom: 12px;
-  color: #ddd;
 }
 
 iframe {
@@ -188,7 +194,6 @@ iframe {
 /* MOBILE */
 @media (max-width: 768px) {
   iframe { height: 320px; }
-  .navbar { flex-direction: column; gap: 10px; }
   .lock-box { width: 90%; }
 }
 </style>
@@ -199,14 +204,10 @@ iframe {
 <!-- LOCK -->
 <div id="lockScreen">
   <div class="lock-box">
-
-    <img src="https://eightstudios.org/IMG_7229-removebg-preview.png" alt="logo">
-
+    <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
     <h2>Eight Studios</h2>
-
     <input type="password" id="password" placeholder="Password">
     <button onclick="unlock()">Unlock</button>
-
   </div>
 </div>
 
@@ -216,7 +217,7 @@ iframe {
   <div class="navbar">
 
     <div class="nav-left">
-      <img src="https://eightstudios.org/IMG_7229-removebg-preview.png" alt="logo">
+      <img src="https://eightstudios.org/IMG_7229-removebg-preview.png">
       <span>Eight Studios</span>
     </div>
 
@@ -235,7 +236,7 @@ iframe {
     </div>
 
     <div class="panel">
-      <h3>Live Chat Dashboard</h3>
+      <h3>Live Chat</h3>
       <a href="https://dashboard.tawk.to/#/inbox/69febf581262751c34a07c2a/all" target="_blank"
          style="display:inline-block;padding:10px 14px;background:white;color:black;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;">
         Open Chat
@@ -244,7 +245,6 @@ iframe {
 
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     © Eight Studios • Admin Panel
   </div>
